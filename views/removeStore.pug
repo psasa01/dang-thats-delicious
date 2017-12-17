@@ -1,0 +1,15 @@
+extends layout
+
+include mixins/_storeForm
+
+block content
+  .inner  
+    
+    h2= title
+    
+    p do you really want to delete store?
+    
+    form(action=`/store/${store._id}/delete` method="DELETE" class="card")
+          
+          
+    input(type="button" value="Yes" class="button") 
