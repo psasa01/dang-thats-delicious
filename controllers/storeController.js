@@ -97,10 +97,14 @@ exports.updateStore = async(req, res) => {
   res.redirect(`/store/${store._id}/edit`);
 };
 
-exports.getTags = (req, res) => {
-  res.render('index', {
-    title: 'get Tags'
-  });
+exports.getStoreByTag = async(req, res) => {
+  const tags = await Store.getTagsList();
+  const tag = req.params.tag;
+  res.render('tag', {
+    tags,
+    tag,
+    title: 'Tags'
+  })
 };
 
 exports.deleteStore = async(req, res) => {
