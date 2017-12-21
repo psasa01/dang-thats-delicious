@@ -16,7 +16,7 @@ exports.registerForm = (req, res) => {
 
 exports.validateRegister = (req, res, next) => {
   req.sanitizeBody('name');
-  req.checkBody('username', 'You must supply a name!').notEmpty();
+  req.checkBody('user', 'You must supply a name!').notEmpty();
   req.checkBody('email', 'That email is not valid!').isEmail();
   req.sanitizeBody('email').normalizeEmail({
     remove_dots: false,
@@ -44,7 +44,7 @@ exports.validateRegister = (req, res, next) => {
 exports.register = async(req, res, next) => {
   const user = new User({
     email: req.body.email,
-    username: req.body.username
+    user: req.body.user
   });
 
   const register = promisify(User.register, User);
