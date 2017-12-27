@@ -23,6 +23,7 @@ const userSchema = new Schema({
   resetPasswordToken: String,
   resetPasswordExpires: Date
 });
+userSchema.set('versionKey', false);
 
 userSchema.virtual('gravatar').get(function () {
   const hash = md5(this.email);

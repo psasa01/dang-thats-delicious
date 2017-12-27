@@ -32,7 +32,7 @@ exports.addStore = (req, res) => {
 
 exports.upload = multer(multerOptions).single('photo');
 
-exports.resize = async(req, res, next) => {
+exports.resize = async (req, res, next) => {
   // if there is no new file to resize
   if (!req.file) {
     next();
@@ -48,13 +48,14 @@ exports.resize = async(req, res, next) => {
   next();
 };
 
-exports.createStore = async(req, res) => {
+exports.createStore = async (req, res) => {
+  req.body.author = req.user._id;
   const store = await (new Store(req.body)).save();
   req.flash('success', `You succesfully saved the ${store.name} store!`);
   res.redirect(`/store/${store.slug}`);
 };
 
-exports.getStores = async(req, res) => {
+exports.getStores = async (req, res) => {
   const stores = await Store.find();
   res.render('stores', {
     title: 'Stores',
@@ -62,7 +63,7 @@ exports.getStores = async(req, res) => {
   });
 };
 
-exports.getStoreBySlug = async(req, res, next) => {
+exports.getStoreBySlug = async (req, res, next) => {
   const store = await Store.findOne({
     slug: req.params.slug
   });
@@ -73,20 +74,29 @@ exports.getStoreBySlug = async(req, res, next) => {
     title: store.name
 
   });
-}
+};
 
-exports.editStore = async(req, res) => {
+const confirmOwner = (store, user) => {
+  if (!user || !store.author.equals(user._id)) {
+    throw Error('You must own the store in order to edit!')
+  }
+};
+
+exports.editStore = async (req, res) => {
+  // 1. find the store with given id
   const store = await Store.findOne({
     _id: req.params.id
   });
-
+  // 2. confirm the owner
+  confirmOwner(store, req.user);
+  // 3. Render the edit form
   res.render('editStore', {
     title: 'Edit Store',
     store
   });
 };
 
-exports.updateStore = async(req, res) => {
+exports.updateStore = async (req, res) => {
   const store = await Store.findOneAndUpdate({
     _id: req.params.id
   }, req.body, {
@@ -97,7 +107,7 @@ exports.updateStore = async(req, res) => {
   res.redirect(`/store/${store._id}/edit`);
 };
 
-exports.getStoreByTag = async(req, res) => {
+exports.getStoreByTag = async (req, res) => {
   const tag = req.params.tag;
   const tagQuery = tag || {
     $exists: true
@@ -117,7 +127,7 @@ exports.getStoreByTag = async(req, res) => {
   });
 };
 
-exports.deleteStore = async(req, res) => {
+exports.deleteStore = async (req, res) => {
   const store = await Store.findOneAndRemove({
     _id: req.params.id
   });
