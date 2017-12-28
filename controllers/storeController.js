@@ -128,10 +128,18 @@ exports.getStoreByTag = async (req, res) => {
 };
 
 exports.deleteStore = async (req, res) => {
-  const store = await Store.findOneAndRemove({
+  const store = await Store.findOne({
     _id: req.params.id
   });
-
-  req.flash('error', 'SUCCESSSSS!')
+  req.flash('success', `Do you really want to delete ${store.name} store? <button onclick="store.remove()">YES</button><button>NO!</button> `);
   res.redirect('/');
-};
+}
+
+//exports.deleteStore = async (req, res) => {
+//  const store = await Store.findOneAndRemove({
+//    _id: req.params.id
+//  });
+//
+//  req.flash('error', 'SUCCESSSSS!')
+//  res.redirect('/');
+//};
