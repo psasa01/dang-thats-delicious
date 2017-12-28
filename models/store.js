@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
+require('mongoose-strip-html-tags')(mongoose);
 
 const slug = require('slugs');
 
@@ -8,11 +9,16 @@ const storeSchema = new mongoose.Schema({
     type: String,
     trim: true,
     required: 'Please enter a store name!',
+    stripHtmlTags: true
   },
-  slug: String,
+  slug: {
+    type: String,
+    stripHtmlTags: true
+  },
   description: {
     type: String,
-    trim: true
+    trim: true,
+
   },
   tags: [String],
   created: {
@@ -22,7 +28,8 @@ const storeSchema = new mongoose.Schema({
   location: {
     type: {
       type: String,
-      default: 'Point'
+      default: 'Point',
+      stripHtmlTags: true
     },
     coordinates: [{
       type: Number,
@@ -30,15 +37,24 @@ const storeSchema = new mongoose.Schema({
       }],
     address: {
       type: String,
-      required: 'You must supply an address!'
+      required: 'You must supply an address!',
+      stripHtmlTags: true
     }
   },
   photo: String,
   author: {
     type: mongoose.Schema.ObjectId,
     ref: 'User',
-    required: 'You must supply an author'
+    required: 'You must supply an author',
+    stripHtmlTags: true
   }
+});
+
+// Define indexes
+
+storeSchema.index({
+  name: 'text',
+  description: 'text'
 });
 
 storeSchema.pre('save', async function (next) {

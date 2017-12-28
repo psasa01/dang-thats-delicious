@@ -128,18 +128,39 @@ exports.getStoreByTag = async (req, res) => {
 };
 
 exports.deleteStore = async (req, res) => {
-  const store = await Store.findOne({
+  const store = await Store.findOneAndRemove({
     _id: req.params.id
   });
-  req.flash('success', `Do you really want to delete ${store.name} store? <button onclick="store.remove()">YES</button><button>NO!</button> `);
-  res.redirect('/');
-}
 
-//exports.deleteStore = async (req, res) => {
-//  const store = await Store.findOneAndRemove({
-//    _id: req.params.id
-//  });
-//
-//  req.flash('error', 'SUCCESSSSS!')
-//  res.redirect('/');
-//};
+  req.flash('error', 'SUCCESSSSS!')
+  res.redirect('/');
+};
+
+// API
+
+exports.searchStores = async (req, res) => {
+  const stores = await Store
+
+    // find stores that match
+    .find({
+      $text: {
+        $search: req.query.q,
+
+      }
+    }, {
+      score: {
+        $meta: 'textScore'
+      }
+    })
+
+    // sort them
+    .sort({
+      score: {
+        $meta: 'textScore'
+      }
+    })
+
+    // return 5 results
+    .limit(10);
+  res.json(stores);
+}

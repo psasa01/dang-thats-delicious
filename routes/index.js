@@ -28,8 +28,11 @@ router.post('/add/:id',
 router.get('/store/:slug', catchErrors(storeController.getStoreBySlug));
 
 router.get('/store/:id/edit', catchErrors(storeController.editStore));
+
 router.get('/store/:id/remove', catchErrors(storeController.deleteStore));
+
 router.get('/store/:id/delete', catchErrors(storeController.removeStore));
+
 router.get('/tags', catchErrors(storeController.getStoreByTag));
 router.get('/tags/:tag', catchErrors(storeController.getStoreByTag));
 
@@ -55,5 +58,9 @@ router.post('/account/reset/:token',
   authController.confirmedPasswords,
   catchErrors(authController.update)
 );
+
+// API endpoints
+
+router.get('/api/search', catchErrors(storeController.searchStores));
 
 module.exports = router;
