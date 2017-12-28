@@ -5,7 +5,6 @@ mixin storeCard(store = {})
                 if user && store.author.equals(user._id)
                   .store__action.store__action--edit
                       a(href=`/store/${store._id}/edit`)!= h.icon('pencil')
-                      a(href=`/store/${store._id}/remove`)!= h.icon('logout')
                   
             img(src=`/uploads/${store.photo || 'store.png'}`)
             h2.title

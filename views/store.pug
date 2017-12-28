@@ -6,7 +6,7 @@ block content
     .single__hero
       img.single__image(src=`/uploads/${store.photo || 'store.png'}`)
       h2.title.title--single
-        a(href=`store/${store.slug}`) #{store.name}
+        a(href=`/store/${store.slug}`) #{store.name}
   
   .single__details.inner
     img.single__map(src=h.staticMap(store.location.coordinates))
@@ -18,4 +18,14 @@ block content
           li.tag
             a.tag__link(href=`/tags/${tag}`)
               span.tag__text ##{tag}
-      
+  .inner
+    .store__buttons
+      .desc 
+        p= store.description
+      if user && store.author.equals(user._id)
+        a(href=`/store/${store._id}/edit`) 
+          button.edit Edit
+        a(href=`/store/${store._id}/remove`) 
+          button.remove Remove
+  
+

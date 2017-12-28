@@ -18,6 +18,7 @@ const storeSchema = new mongoose.Schema({
   description: {
     type: String,
     trim: true,
+    stripHtmlTags: true
 
   },
   tags: [String],

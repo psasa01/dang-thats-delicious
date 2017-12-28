@@ -789,6 +789,38 @@ label {
     -webkit-clip-path: polygon(0 0, 100% 0, 100% 90%, 0% 100%);
             clip-path: polygon(0 0, 100% 0, 100% 90%, 0% 100%); }
 
+.store__buttons {
+  width: 100%;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: end;
+      justify-content: flex-end; }
+  .store__buttons button {
+    cursor: pointer;
+    padding: .8em 3em;
+    margin: .5em .3em;
+    border: 0;
+    box-shadow: 1px 1px 3px #666;
+    transition: .5s ease; }
+    .store__buttons button:hover {
+      box-shadow: 1px 1px 5px #aaa; }
+
+.edit {
+  background-color: #ffc400; }
+
+.remove {
+  background-color: rgba(255, 0, 88, 0.7); }
+
+.desc {
+  width: 100%;
+  text-align: left;
+  padding: .2em 1.5em;
+  text-align: justify;
+  margin-right: .2em; }
+
+.desc p {
+  line-height: 1.2em; }
+
 .tags {
   margin: 0;
   padding: 0;
