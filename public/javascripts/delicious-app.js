@@ -9,6 +9,10 @@ import autocomplete from './modules/autocomplete';
 
 import typeAhead from './modules/typeAhead';
 
+import makeMap from './modules/map';
+
 autocomplete($('#address'), $('#lat'), $('#lng'));
 
-typeAhead($('.search'))
+typeAhead($('.search'));
+
+makeMap($('#map'));

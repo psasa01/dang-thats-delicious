@@ -68,14 +68,11 @@ exports.getStoreBySlug = async (req, res, next) => {
     slug: req.params.slug
   });
   if (!store) return next();
-
   res.render('store', {
     store,
     title: store.name
-
   });
 };
-
 const confirmOwner = (store, user) => {
   if (!user || !store.author.equals(user._id)) {
     throw Error('You must own the store in order to edit!')
@@ -117,8 +114,6 @@ exports.getStoreByTag = async (req, res) => {
     tags: tagQuery
   });
   const [tags, stores] = await Promise.all([tagsPromise, storesPromise]);
-
-
   res.render('tag', {
     tags,
     tag,
@@ -131,7 +126,6 @@ exports.deleteStore = async (req, res) => {
   const store = await Store.findOneAndRemove({
     _id: req.params.id
   });
-
   req.flash('error', 'SUCCESSSSS!')
   res.redirect('/');
 };
@@ -140,27 +134,46 @@ exports.deleteStore = async (req, res) => {
 
 exports.searchStores = async (req, res) => {
   const stores = await Store
-
     // find stores that match
     .find({
       $text: {
         $search: req.query.q,
-
       }
     }, {
       score: {
         $meta: 'textScore'
       }
     })
-
     // sort them
     .sort({
       score: {
         $meta: 'textScore'
       }
     })
-
     // return 5 results
     .limit(10);
   res.json(stores);
+};
+
+exports.mapStores = async (req, res) => {
+  const coordinates = [req.query.lng, req.query.lat].map(parseFloat);
+  const q = {
+    location: {
+      $near: {
+        $geometry: {
+          type: 'Point',
+          coordinates
+        },
+        $maxDistance: 10000
+      }
+    }
+  };
+  const stores = await Store.find(q).select('slug name description location photo').limit(10);
+  res.json(stores);
+};
+
+exports.mapPage = (req, res) => {
+  res.render('map', {
+    title: 'Map'
+  })
 }
