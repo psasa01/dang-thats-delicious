@@ -30,12 +30,11 @@ const storeSchema = new mongoose.Schema({
     type: {
       type: String,
       default: 'Point',
-      stripHtmlTags: true
     },
-    coordinates: [{
-      type: Number,
+    coordinates: {
+      type: [Number],
       required: 'You must supply the coordinates!'
-      }],
+    },
     address: {
       type: String,
       required: 'You must supply an address!',

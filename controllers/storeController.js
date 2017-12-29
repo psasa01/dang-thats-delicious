@@ -50,6 +50,8 @@ exports.resize = async (req, res, next) => {
 
 exports.createStore = async (req, res) => {
   req.body.author = req.user._id;
+  req.body.location.type = 'Point';
+  console.log(req.body);
   const store = await (new Store(req.body)).save();
   req.flash('success', `You succesfully saved the ${store.name} store!`);
   res.redirect(`/store/${store.slug}`);
@@ -163,8 +165,7 @@ exports.mapStores = async (req, res) => {
         $geometry: {
           type: 'Point',
           coordinates
-        },
-        $maxDistance: 10000
+        }
       }
     }
   };

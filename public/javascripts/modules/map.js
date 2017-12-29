@@ -7,8 +7,8 @@ const mapOptions = {
   center: {
     lat: 43.2,
     lng: -79.8
-  },
-  zoom: 8
+  }
+
 };
 
 function loadPlaces(map, lat = 43.2, lng = -79.8) {
@@ -69,8 +69,13 @@ function makeMap(mapDiv) {
   //make our map
   const map = new google.maps.Map(mapDiv, mapOptions);
   loadPlaces(map);
+
   const input = $('[name="geolocate"]');
   const autocomplete = new google.maps.places.Autocomplete(input);
+  autocomplete.addListener('place_changed', () => {
+    const place = autocomplete.getPlace();
+    loadPlaces(map, place.geometry.location.lat(), place.geometry.location.lng());
+  });
 
 };
 
