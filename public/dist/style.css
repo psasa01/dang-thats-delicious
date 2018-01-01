@@ -754,6 +754,7 @@ label {
       justify-content: space-around; }
 
 .store__action {
+  cursor: pointer;
   font-size: 10px; }
   .store__action svg {
     width: 25px;
@@ -938,13 +939,15 @@ label {
       margin-right: 0; } }
 
 .heart__button {
+  cursor: pointer;
   background: none;
   border: 0;
   outline: 0;
   position: relative; }
   .heart__button:after {
     content: '\2665\FE0F';
-    font-size: 20px;
+    color: red;
+    font-size: 30px;
     position: absolute;
     opacity: 0;
     top: 0; }

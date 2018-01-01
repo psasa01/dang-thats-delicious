@@ -39,9 +39,11 @@
   color: white;
   align-items: center;
   justify-content: space-around;
+
 }
 
 .store__action {
+  cursor: pointer;
   font-size: 10px;
   svg {
     width: 25px;
