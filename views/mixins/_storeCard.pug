@@ -1,4 +1,5 @@
 mixin storeCard(store = {})
+
     .store
         .store__hero
             .store__actions 
@@ -12,7 +13,10 @@ mixin storeCard(store = {})
               if user && store.author.equals(user._id)
                 .store__action.store__action--edit
                   a(href=`/store/${store._id}/edit`)!= h.icon('pencil')
-                  
+              if store.reviews
+                .store__action.store__action--count
+                  a(href=`/store/${store.slug}`)!= h.icon('review')
+                  span= store.reviews.length
             img(src=`/uploads/${store.photo || 'store.png'}`)
             h2.title
                 a(href=`/store/${store.slug}`) #{store.name}
